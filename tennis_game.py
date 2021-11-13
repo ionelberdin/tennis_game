@@ -17,6 +17,7 @@ def tennis_game():
                   (m+c, m+a+b, m+c+2*d, m+a+2*b)]
     for rectangle in rectangles:
         tennis_court.create_rectangle(*rectangle, fill='blue', outline='white')
+    tennis_court.create_line(m+c+d, m/2, m+c+d, m*3/2+2*(a+b), fill='white', width=3)
     root.mainloop()
 
 if __name__ == '__main__':
