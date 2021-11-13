@@ -23,7 +23,7 @@ def tennis_game():
     tennis_court.create_oval(2*m, m+2*a+b, 2*m+2*r, m+2*a+b+2*r, fill='yellow', outline='black')
 
     p1 = tennis_court.create_rectangle(m*3/2, m+2*a+b, m*7/4, 2*m+2*a+b, fill='black', outline='black')
-    print(type(p1), p1)
+    
     root.bind('<a>', lambda x: tennis_court.move(p1, -5, 0))
     root.bind('<w>', lambda x: tennis_court.move(p1, 0, -5))
     root.bind('<s>', lambda x: tennis_court.move(p1, 0, 5))
