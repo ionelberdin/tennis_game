@@ -6,6 +6,7 @@ a = 50
 b = 250
 c = 300
 d = 300
+r = 5
 
 def tennis_game():
     root = Tk()
@@ -18,6 +19,9 @@ def tennis_game():
     for rectangle in rectangles:
         tennis_court.create_rectangle(*rectangle, fill='blue', outline='white')
     tennis_court.create_line(m+c+d, m/2, m+c+d, m*3/2+2*(a+b), fill='white', width=3)
+
+    tennis_court.create_oval(2*m, m+2*a+b, 2*m+2*r, m+2*a+b+2*r, fill='yellow', outline='black')
+
     root.mainloop()
 
 if __name__ == '__main__':
