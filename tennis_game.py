@@ -22,6 +22,8 @@ def tennis_game():
 
     tennis_court.create_oval(2*m, m+2*a+b, 2*m+2*r, m+2*a+b+2*r, fill='yellow', outline='black')
 
+    tennis_court.create_rectangle(m*3/2, m+2*a+b, m*7/4, 2*m+2*a+b, fill='black', outline='black')
+
     root.mainloop()
 
 if __name__ == '__main__':
