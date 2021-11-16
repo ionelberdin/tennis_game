@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import ttk
+# https://tcl.tk/man/tcl8.6/TkCmd/contents.htm
 
 m = 100
 a = 50
@@ -18,6 +19,7 @@ def tennis_game():
                   (m+c, m+a+b, m+c+2*d, m+a+2*b)]
     for rectangle in rectangles:
         tennis_court.create_rectangle(*rectangle, fill='blue', outline='white')
+    
     tennis_court.create_line(m+c+d, m/2, m+c+d, m*3/2+2*(a+b), fill='white', width=3)
 
     tennis_court.create_oval(2*m, m+2*a+b, 2*m+2*r, m+2*a+b+2*r, fill='yellow', outline='black')
