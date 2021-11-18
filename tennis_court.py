@@ -26,7 +26,7 @@ class TennisCourt:
     lw = 3 * m_per_in  # line width 2 to 4 inches
 
     draw_styles = {
-        'outer_rectangle': ('create_rectangle', {'background': 'blue', 'outline': 'white'}),
+        'outer_rectangle': ('create_polygon', {'fill': 'blue', 'outline': 'white'}),
         'court_line': ('create_line', {'fill': 'white', 'width': 3}),
         'net': ('create_line', {'fill': 'white', 'width': 3})
     }
@@ -75,8 +75,8 @@ class TennisCourt:
     def resize_canvas(self, canvas):
         """handles the re-drawing of the court when the canvas size changes"""
         canvas_attrs = canvas.config()
-        canvas_width = canvas_attrs['width'][3]
-        canvas_height = canvas_attrs['height'][3]
+        canvas_width = float(canvas_attrs['width'][4])  # px
+        canvas_height = float(canvas_attrs['height'][4])  # px
         is_landscape = canvas_width > canvas_height
         canvas_max = max([canvas_width, canvas_height])
         canvas_min = min([canvas_width, canvas_height])
