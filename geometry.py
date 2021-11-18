@@ -14,8 +14,3 @@ class Point:
     
     def __sum__(self, other):
         return Point(*[i + j for i, j in zip(self.xyz, other.xyz)])
-
-
-class Line:
-    def __init__(self, points):
-        self.points = points

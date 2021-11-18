@@ -25,38 +25,73 @@ class TennisCourt:
     npw = 6 * m_per_in  # net post width
     lw = 3 * m_per_in  # line width 2 to 4 inches
 
+    draw_styles = {
+        'outer_rectangle': ('create_rectangle', {'background': 'blue', 'outline': 'white'}),
+        'court_line': ('create_line', {'fill': 'white', 'width': 3}),
+        'net': ('create_line', {'fill': 'white', 'width': 3})
+    }
+
     def __init__(self):
-        self.boundary = Line(Point(self.csl, self.csw),
-                             Point(-self.csl, self.csw),
-                             Point(-self.csl, -self.csw),
-                             Point(self.csl, -self.csw))
-        self.lines = [
-            # single sidelines
-            Line(Point(self.csl, self.scsw),
-                 Point(-self.csl, self.scsw)),
-            Line(Point(self.csl, -self.scsw),
-                 Point(-self.csl, -self.scsw)),
-            # service lines
-            Line(Point(self.sbl, self.scsw),
-                 Point(self.sbl, -self.scsw)),
-            Line(Point(-self.sbl, self.scsw),
-                 Point(-self.sbl, -self.scsw)),
-            # center service line
-            Line(Point(self.sbl, 0),
-                 Point(-self.sbl, 0)),
-            # center marks
-            Line(Point(self.csl, 0),
-                 Point(self.csl - self.cml, 0)),
-            Line(Point(-self.csl, 0),
-                 Point(-self.csl + self.cml, 0)),
-            # net
-            Line(Point(0, self.csw + self.npd),
-                 Point(0, -self.csw - self.npd))
-        ]
-    
+        pass
+                    
     def draw(self, canvas):
-        # TODO: the idea is that this method handles the drawing of the court
-        print(canvas.width, canvas.height)
-        #canvas.create_rectangle()
+        elements = [
+            ('outer_rectangle', (Point(self.csl, self.csw),
+                                 Point(-self.csl, self.csw),
+                                 Point(-self.csl, -self.csw),
+                                 Point(self.csl, -self.csw))),
+            # single sidelines
+            ('court_line', (Point(self.csl, self.scsw),
+                            Point(-self.csl, self.scsw))),
+            ('court_line', (Point(self.csl, -self.scsw),
+                            Point(-self.csl, -self.scsw))),
+            # service lines
+            ('court_line', (Point(self.sbl, self.scsw),
+                            Point(self.sbl, -self.scsw))),
+            ('court_line', (Point(-self.sbl, self.scsw),
+                            Point(-self.sbl, -self.scsw))),
+            # center service line
+            ('court_line', (Point(self.sbl, 0),
+                            Point(-self.sbl, 0))),
+            # center marks
+            ('court_line', (Point(self.csl, 0),
+                            Point(self.csl - self.cml, 0))),
+            ('court_line', (Point(-self.csl, 0),
+                            Point(-self.csl + self.cml, 0))),
+            # net
+            ('net', (Point(0, self.csw + self.npd),
+                            Point(0, -self.csw - self.npd)))]
+        
+        self.elements = {}
+
+        for element_type, points in elements:
+            canvas_method, kwargs = self.draw_styles[element_type]
+            coords = [p.xy for p in points]
+            i = getattr(canvas, canvas_method)(*coords, **kwargs)
+            self.elements[i] = points
+        
+        self.resize_canvas(canvas)
+    
+    def resize_canvas(self, canvas):
+        """handles the re-drawing of the court when the canvas size changes"""
+        canvas_attrs = canvas.config()
+        canvas_width = canvas_attrs['width'][3]
+        canvas_height = canvas_attrs['height'][3]
+        is_landscape = canvas_width > canvas_height
+        canvas_max = max([canvas_width, canvas_height])
+        canvas_min = min([canvas_width, canvas_height])
+        canvas_ratio = canvas_max / canvas_min       
+        court_ratio = self.tw / self.tl
+        
+        if canvas_ratio > court_ratio:
+            scale = canvas_min / self.tw
+        else:
+            scale = canvas_max / self.tl
+        
+        # TODO: calculate horrizontal or vertical padding
+        # TODO: transform points into canvas coords
+        # TODO: re-postion elements
+        
+
 
 
