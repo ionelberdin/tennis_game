@@ -19,6 +19,7 @@ def tennis_game():
     tennis_court = TennisCourt()
 
     tennis_court.draw(tennis_canvas)
+    # FIXME: get rid of this once the class methods TennisCourt.draw and canvas_resize work
     # rectangles = [(m, m, m+2*(c+d), m+2*(a+b)),
     #               (m, m+a, m+2*(c+d), m+a+2*b),
     #               (m+c, m+a, m+c+2*d, m+a+b),
