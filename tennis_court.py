@@ -104,8 +104,8 @@ class TennisCourt:
             self.left_ref = self.hm + self.s2s + self.csw
             self.top_ref = self.vm + self.b2b + self.csl
 
-        # TODO: transform points into canvas coords
-        # TODO: re-postion elements
+        for i, element in self.elements.items():
+            canvas.move(i, *[c for p in element for c in self.xy_to_lefttop(p)])
     
     def xy_to_lefttop(self, xy):
             x, y = [coord * self.scale for coord in xy]
