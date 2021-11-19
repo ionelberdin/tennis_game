@@ -97,8 +97,12 @@ class TennisCourt:
         
         if self.is_landscape:
             self.hm, self.vm = length_margin, width_margin
+            self.left_ref = self.hm + self.b2b + self.csl
+            self.top_ref = self.vm + self.s2s + self.csw
         else:
             self.hm, self.vm = width_margin, length_margin
+            self.left_ref = self.hm + self.s2s + self.csw
+            self.top_ref = self.vm + self.b2b + self.csl
 
         # TODO: transform points into canvas coords
         # TODO: re-postion elements
@@ -106,7 +110,7 @@ class TennisCourt:
     def xy_to_lefttop(self, xy):
             x, y = [coord * self.scale for coord in xy]
             delta_left, delta_top = x, -y if self.is_landscape else -y, -x
-            return (self.left_0 + delta_left, self.top_0 + delta_top)
+            return (self.left_ref + delta_left, self.top_ref + delta_top)
 
 
 
