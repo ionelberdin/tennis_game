@@ -105,11 +105,11 @@ class TennisCourt:
             self.top_ref = self.vm + self.b2b + self.csl
 
         for i, element in self.elements.items():
-            canvas.move(i, *[c for p in element for c in self.xy_to_lefttop(p)])
+            canvas.coords(i, *[c for p in element for c in self.xy_to_lefttop(p.xy)])
     
     def xy_to_lefttop(self, xy):
             x, y = [coord * self.scale for coord in xy]
-            delta_left, delta_top = x, -y if self.is_landscape else -y, -x
+            delta_left, delta_top = (x, -y) if self.is_landscape else (-y, -x)
             return (self.left_ref + delta_left, self.top_ref + delta_top)
 
 
