@@ -1,3 +1,4 @@
+from tkinter.constants import W
 from geometry import Point
 
 m_per_ft = 0.3048
@@ -14,10 +15,10 @@ class TennisCourt:
     npd = 3 * m_per_ft  # net post distance (to sideline)
     nph = 3.5 * m_per_ft  # net post height
     nch = 3 * m_per_ft  # net central height
-    bm = 21 * m_per_ft  # backstop margin
-    lm = 12 * m_per_ft  # lateral margin
-    tw = (csw + lm) * 2  # total width
-    tl = (csl + bm) * 2  # total length
+    b2b = 21 * m_per_ft  # baseline to backstop distance
+    s2s = 12 * m_per_ft  # sideline to sidestop distance
+    court_width = (csw + s2s) * 2  # total tennis court width
+    court_length = (csl + b2b) * 2  # total tennis court length
 
     # Tennis Court dimensions in inches, then converted to meters
     cml = 4 * m_per_in  # center mark length
@@ -32,7 +33,10 @@ class TennisCourt:
     }
 
     def __init__(self):
-        pass
+        self.scale = 1
+        self.is_landscape = True
+        self.hm = 0  # horizontal margin
+        self.vm = 0  # vertical margin
                     
     def draw(self, canvas):
         elements = [
@@ -81,14 +85,21 @@ class TennisCourt:
         canvas_max = max([canvas_width, canvas_height])
         canvas_min = min([canvas_width, canvas_height])
         canvas_ratio = canvas_max / canvas_min       
-        court_ratio = self.tw / self.tl
+        court_ratio = self.court_width / self.court_length
         
         if canvas_ratio > court_ratio:
-            scale = canvas_min / self.tw
+            self.scale = canvas_min / self.court_width
         else:
-            scale = canvas_max / self.tl
+            self.scale = canvas_max / self.court_length
         
-        # TODO: calculate horrizontal or vertical padding
+        length_margin = (canvas_max - self.court_length) / 2
+        width_margin = (canvas_min - self.court_width) / 2
+        
+        if self.is_landscape:
+            self.hm, self.vm = length_margin, width_margin
+        else:
+            self.hm, self.vm = width_margin, length_margin
+
         # TODO: transform points into canvas coords
         # TODO: re-postion elements
     
