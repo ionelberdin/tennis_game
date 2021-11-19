@@ -77,7 +77,7 @@ class TennisCourt:
         canvas_attrs = canvas.config()
         canvas_width = float(canvas_attrs['width'][4])  # px
         canvas_height = float(canvas_attrs['height'][4])  # px
-        is_landscape = canvas_width > canvas_height
+        self.is_landscape = canvas_width > canvas_height
         canvas_max = max([canvas_width, canvas_height])
         canvas_min = min([canvas_width, canvas_height])
         canvas_ratio = canvas_max / canvas_min       
@@ -91,7 +91,11 @@ class TennisCourt:
         # TODO: calculate horrizontal or vertical padding
         # TODO: transform points into canvas coords
         # TODO: re-postion elements
-        
+    
+    def xy_to_lefttop(self, xy):
+            x, y = [coord * self.scale for coord in xy]
+            delta_left, delta_top = x, -y if self.is_landscape else -y, -x
+            return (self.left_0 + delta_left, self.top_0 + delta_top)
 
 
 
