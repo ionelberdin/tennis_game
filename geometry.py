@@ -12,9 +12,32 @@ class Array:
     def xyz(self):
         return (*self.xy, self.z)
     
-    def __sum__(self, other):
-        return Array(*[i + j for i, j in zip(self.xyz, other.xyz)])
+    def __add__(self, other):
+        return Array(*[i + j for i, j in zip(self, other)])
     
-    def __prod__(self, other):
+    def __mul__(self, other):
         if (type(other) in [float, int]):
-            return Array
+            return Array(*[i*other for i in self])
+        if (type(other) == type(self)):
+            return sum([i * j for i, j in zip(self, other)])
+    
+    def __rmul__(self, other):
+        if (type(other) in [float, int]):
+            return self * other
+
+    def __iter__(self):
+        for i in self.xyz:
+            yield i
+
+    def __repr__(self):
+        return "Array({})".format(", ".join([str(i) for i in self]))
+
+if __name__ == '__main__':
+    a = Array()
+    print(a)
+    b = Array(1,2)
+    print(b)
+    print(a+b)
+    print(4*a, a*4)
+    print(4*b, b*4)
+    print(b*b, b*a, a*a)
