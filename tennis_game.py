@@ -3,7 +3,8 @@ from tkinter import ttk
 # https://tcl.tk/man/tcl8.6/TkCmd/contents.htm
 
 from tennis_court import TennisCourt
-from geometry import Point
+from tennis_player import TennisPlayer
+from geometry import Array
 
 
 class TennisGame():
@@ -57,44 +58,44 @@ class TennisGame():
     def draw(self):
         c = self.court
         elements = [
-            ('outerstop_rectangle', (Point(c.csl+c.b2b, c.csw+c.s2s),
-                                     Point(-c.csl-c.b2b, c.csw+c.s2s),
-                                     Point(-c.csl-c.b2b, -c.csw-c.s2s),
-                                     Point(c.csl+c.b2b, -c.csw-c.s2s))),
-            ('doubles_rectangle', (Point(c.csl, c.csw),
-                                   Point(-c.csl, c.csw),
-                                   Point(-c.csl, -c.csw),
-                                   Point(c.csl, -c.csw))),
+            ('outerstop_rectangle', (Array(c.csl+c.b2b, c.csw+c.s2s),
+                                     Array(-c.csl-c.b2b, c.csw+c.s2s),
+                                     Array(-c.csl-c.b2b, -c.csw-c.s2s),
+                                     Array(c.csl+c.b2b, -c.csw-c.s2s))),
+            ('doubles_rectangle', (Array(c.csl, c.csw),
+                                   Array(-c.csl, c.csw),
+                                   Array(-c.csl, -c.csw),
+                                   Array(c.csl, -c.csw))),
             # single sidelines
-            ('court_line', (Point(c.csl, c.scsw),
-                            Point(-c.csl, c.scsw))),
-            ('court_line', (Point(c.csl, -c.scsw),
-                            Point(-c.csl, -c.scsw))),
+            ('court_line', (Array(c.csl, c.scsw),
+                            Array(-c.csl, c.scsw))),
+            ('court_line', (Array(c.csl, -c.scsw),
+                            Array(-c.csl, -c.scsw))),
             # service lines
-            ('court_line', (Point(c.sbl, c.scsw),
-                            Point(c.sbl, -c.scsw))),
-            ('court_line', (Point(-c.sbl, c.scsw),
-                            Point(-c.sbl, -c.scsw))),
+            ('court_line', (Array(c.sbl, c.scsw),
+                            Array(c.sbl, -c.scsw))),
+            ('court_line', (Array(-c.sbl, c.scsw),
+                            Array(-c.sbl, -c.scsw))),
             # center service line
-            ('court_line', (Point(c.sbl, 0),
-                            Point(-c.sbl, 0))),
+            ('court_line', (Array(c.sbl, 0),
+                            Array(-c.sbl, 0))),
             # center marks
-            ('court_line', (Point(c.csl, 0),
-                            Point(c.csl - c.cml, 0))),
-            ('court_line', (Point(-c.csl, 0),
-                            Point(-c.csl + c.cml, 0))),
+            ('court_line', (Array(c.csl, 0),
+                            Array(c.csl - c.cml, 0))),
+            ('court_line', (Array(-c.csl, 0),
+                            Array(-c.csl + c.cml, 0))),
             # net
-            ('net', (Point(0, c.csw + c.npd),
-                            Point(0, -c.csw - c.npd)))]
+            ('net', (Array(0, c.csw + c.npd),
+                            Array(0, -c.csw - c.npd)))]
         
         self.elements = {}
 
-        for element_type, points in elements:
+        for element_type, Arrays in elements:
             canvas_method, kwargs = self.draw_styles[element_type]
             kwargs['tags'] = (element_type, )
-            coords = [p.xy for p in points]
+            coords = [p.xy for p in Arrays]
             i = getattr(self.canvas, canvas_method)(*coords, **kwargs)
-            self.elements[i] = points
+            self.elements[i] = Arrays
         
         self.resize_court()
     
@@ -133,5 +134,13 @@ class TennisGame():
             x, y = [coord * self.scale for coord in xy]
             delta_left, delta_top = (x, -y) if self.is_landscape else (-y, -x)
             return (self.left_ref + delta_left, self.top_ref + delta_top)
+
+    def new_game(self, doubles=False):
+        num_of_players = 4 if doubles else 2
+        self.doubles = doubles
+        self.players = tuple([TennisPlayer(i, i<num_of_players/2)
+                              for i in range(num_of_players)])
+        
+
 if __name__ == '__main__':
     tennis_game = TennisGame()

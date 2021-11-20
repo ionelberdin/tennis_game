@@ -1,5 +1,5 @@
-class Point:
-    def __init__(self, x, y=0, z=0):
+class Array:
+    def __init__(self, x=0, y=0, z=0):
         self.x = x
         self.y = y
         self.z = z
@@ -13,4 +13,8 @@ class Point:
         return (*self.xy, self.z)
     
     def __sum__(self, other):
-        return Point(*[i + j for i, j in zip(self.xyz, other.xyz)])
+        return Array(*[i + j for i, j in zip(self.xyz, other.xyz)])
+    
+    def __prod__(self, other):
+        if (type(other) in [float, int]):
+            return Array

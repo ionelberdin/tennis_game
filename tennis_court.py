@@ -1,4 +1,4 @@
-from geometry import Point
+from geometry import Array
 
 m_per_ft = 0.3048
 m_per_in = 0.0254
