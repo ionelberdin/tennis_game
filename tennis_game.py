@@ -7,7 +7,7 @@ from tennis_court import TennisCourt
 
 def tennis_game():
     root = Tk()
-    tennis_canvas = Canvas(root, width=400, height=600, background='grey')
+    tennis_canvas = Canvas(root, width=400, height=1200, background='black')
     tennis_canvas.grid(column=0, row=0, sticky=(N,W,E,S))
 
     tennis_court = TennisCourt()

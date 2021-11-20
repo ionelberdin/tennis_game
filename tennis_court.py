@@ -27,6 +27,7 @@ class TennisCourt:
     lw = 3 * m_per_in  # line width 2 to 4 inches
 
     draw_styles = {
+        'margin_rectangle': ('create_polygon', {'fill': 'grey', 'outline': 'white'}),
         'outer_rectangle': ('create_polygon', {'fill': 'blue', 'outline': 'white'}),
         'court_line': ('create_line', {'fill': 'white', 'width': 3}),
         'net': ('create_line', {'fill': 'white', 'width': 3})
@@ -40,6 +41,10 @@ class TennisCourt:
                     
     def draw(self, canvas):
         elements = [
+            ('margin_rectangle', (Point(self.csl+self.b2b, self.csw+self.s2s),
+                                  Point(-self.csl-self.b2b, self.csw+self.s2s),
+                                  Point(-self.csl-self.b2b, -self.csw-self.s2s),
+                                  Point(self.csl+self.b2b, -self.csw-self.s2s))),
             ('outer_rectangle', (Point(self.csl, self.csw),
                                  Point(-self.csl, self.csw),
                                  Point(-self.csl, -self.csw),
@@ -84,13 +89,11 @@ class TennisCourt:
         self.is_landscape = canvas_width > canvas_height
         canvas_max = max([canvas_width, canvas_height])
         canvas_min = min([canvas_width, canvas_height])
-        canvas_ratio = canvas_max / canvas_min       
-        court_ratio = self.court_width / self.court_length
+        scale1 = canvas_max / self.court_length       
+        scale2 = canvas_min / self.court_width
         
-        if canvas_ratio > court_ratio:
-            self.scale = canvas_min / self.court_width
-        else:
-            self.scale = canvas_max / self.court_length
+        self.scale = min([scale1, scale2])
+
         
         length_margin = (canvas_max - self.court_length) / 2
         width_margin = (canvas_min - self.court_width) / 2
