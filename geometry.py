@@ -1,4 +1,4 @@
-from math import sqrt
+from math import sqrt, cos, sin, pi
 
 class Array:
     def __init__(self, x=0, y=0, z=0):
@@ -40,6 +40,10 @@ class Array:
     def __abs__(self):
         return sqrt(self * self)
 
+    def rotate_z(self, ang:float):
+        c, s, x, y, z = cos(ang), sin(ang), *self.xyz
+        return Array(x*c - y*s, y*c + x*s, z)
+
 if __name__ == '__main__':
     a = Array()
     print(a)
@@ -50,4 +54,5 @@ if __name__ == '__main__':
     print(4*b, b*4)
     print(b*b, b*a, a*a)
     print(abs(b))
-    print(b / 2)
+    print(b)
+    print(b.rotate_z(pi/6), b.rotate_z(pi/3), b.rotate_z(pi/2), b.rotate_z(2*pi))
