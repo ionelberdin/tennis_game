@@ -27,6 +27,7 @@ class TennisCourt:
 
     def __init__(self):
         pass
+        # TODO: define court zones where ball is allowed to bounce
                     
 
 
