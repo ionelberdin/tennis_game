@@ -1,3 +1,5 @@
+from math import sqrt
+
 class Array:
     def __init__(self, x=0, y=0, z=0):
         self.x = x
@@ -25,12 +27,18 @@ class Array:
         if (type(other) in [float, int]):
             return self * other
 
+    def __truediv__(self, other):
+        return self * (1 / other)
+
     def __iter__(self):
         for i in self.xyz:
             yield i
 
     def __repr__(self):
         return "Array({})".format(", ".join([str(i) for i in self]))
+
+    def __abs__(self):
+        return sqrt(self * self)
 
 if __name__ == '__main__':
     a = Array()
@@ -41,3 +49,5 @@ if __name__ == '__main__':
     print(4*a, a*4)
     print(4*b, b*4)
     print(b*b, b*a, a*a)
+    print(abs(b))
+    print(b / 2)
