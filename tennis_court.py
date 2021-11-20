@@ -28,7 +28,7 @@ class TennisCourt:
 
     draw_styles = {
         'margin_rectangle': ('create_polygon', {'fill': 'grey', 'outline': 'white'}),
-        'outer_rectangle': ('create_polygon', {'fill': 'blue', 'outline': 'white'}),
+        'outer_rectangle': ('create_polygon', {'fill': 'blue', 'outline': 'white', 'width': 3}),
         'court_line': ('create_line', {'fill': 'white', 'width': 3}),
         'net': ('create_line', {'fill': 'white', 'width': 3})
     }
