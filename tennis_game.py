@@ -10,10 +10,12 @@ class TennisGame():
     """This is the Tkinter representaiton of the Tennis Game"""
 
     draw_styles = {
-        'margin_rectangle': ('create_polygon', {'fill': 'grey', 'outline': 'white'}),
-        'outer_rectangle': ('create_polygon', {'fill': 'blue', 'outline': 'white', 'width': 3}),
-        'court_line': ('create_line', {'fill': 'white', 'width': 3}),
-        'net': ('create_line', {'fill': 'white', 'width': 3})
+        'outerstop_rectangle': ('create_polygon', 
+                                {'fill': 'grey', 'outline': 'black'}),
+        'doubles_rectangle': ('create_polygon',
+                              {'fill': 'blue', 'outline': 'white', 'width': 2}),
+        'court_line': ('create_line', {'fill': 'white', 'width': 2}),
+        'net': ('create_line', {'fill': 'white', 'width': 2})
     }
 
     def __init__(self, width:float=1200, height:float=600) -> None:
@@ -55,14 +57,14 @@ class TennisGame():
     def draw(self):
         c = self.court
         elements = [
-            ('margin_rectangle', (Point(c.csl+c.b2b, c.csw+c.s2s),
-                                  Point(-c.csl-c.b2b, c.csw+c.s2s),
-                                  Point(-c.csl-c.b2b, -c.csw-c.s2s),
-                                  Point(c.csl+c.b2b, -c.csw-c.s2s))),
-            ('outer_rectangle', (Point(c.csl, c.csw),
-                                 Point(-c.csl, c.csw),
-                                 Point(-c.csl, -c.csw),
-                                 Point(c.csl, -c.csw))),
+            ('outerstop_rectangle', (Point(c.csl+c.b2b, c.csw+c.s2s),
+                                     Point(-c.csl-c.b2b, c.csw+c.s2s),
+                                     Point(-c.csl-c.b2b, -c.csw-c.s2s),
+                                     Point(c.csl+c.b2b, -c.csw-c.s2s))),
+            ('doubles_rectangle', (Point(c.csl, c.csw),
+                                   Point(-c.csl, c.csw),
+                                   Point(-c.csl, -c.csw),
+                                   Point(c.csl, -c.csw))),
             # single sidelines
             ('court_line', (Point(c.csl, c.scsw),
                             Point(-c.csl, c.scsw))),
@@ -89,6 +91,7 @@ class TennisGame():
 
         for element_type, points in elements:
             canvas_method, kwargs = self.draw_styles[element_type]
+            kwargs['tags'] = (element_type, )
             coords = [p.xy for p in points]
             i = getattr(self.canvas, canvas_method)(*coords, **kwargs)
             self.elements[i] = points

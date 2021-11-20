@@ -1,4 +1,3 @@
-from tkinter.constants import W
 from geometry import Point
 
 m_per_ft = 0.3048
@@ -25,8 +24,6 @@ class TennisCourt:
     ncsw = 2 * m_per_in  # net central strap width
     npw = 6 * m_per_in  # net post width
     lw = 3 * m_per_in  # line width 2 to 4 inches
-
-
 
     def __init__(self):
         pass
